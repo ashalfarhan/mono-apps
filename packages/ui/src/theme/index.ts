@@ -1,7 +1,7 @@
 import { createStitches } from '@stitches/react';
 
 const { globalCss, getCssText, styled, theme } = createStitches({
-  prefix: 'MyUI',
+  prefix: 'acme-ui',
   theme: {
     fonts: {
       montserrat: "'Montserrat', sans-serif",

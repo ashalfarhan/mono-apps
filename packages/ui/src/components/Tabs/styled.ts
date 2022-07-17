@@ -24,6 +24,9 @@ export const StyledButton = styled('button', {
   fontSize: 14,
   fontWeight: 500,
   fontFamily: '$montserrat',
+  '*:disabled': {
+    cursor: 'not-allowed !important',
+  },
 });
 
 export const StyledButtonIndicator = styled('span', {
