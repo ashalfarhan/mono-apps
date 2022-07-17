@@ -1,0 +1,26 @@
+{
+  "name": "@acme/ui",
+  "version": "1.0.0",
+  "license": "UNLICENSED",
+  "description": "UI Component",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsup",
+    "test": "echo 'No Test'"
+  },
+  "peerDependencies": {
+    "react": ">=18"
+  },
+  "dependencies": {
+    "@stitches/react": "^1.2.8"
+  },
+  "devDependencies": {
+    "@types/react": "^18.0.15",
+    "tsup": "^6.1.3"
+  }
+}
