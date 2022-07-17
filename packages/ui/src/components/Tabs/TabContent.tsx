@@ -15,6 +15,10 @@ const TabContent = forwardRef(
         data-tab={value}
         ref={ref}
         active={activeIndex === value}
+        role="tabpanel"
+        aria-hidden={activeIndex !== value}
+        id={`tab-content-${value}`}
+        aria-labelledby={`tab-trigger-${value}`}
       />
     );
   }

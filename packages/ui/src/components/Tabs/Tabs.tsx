@@ -1,5 +1,5 @@
 import { ForwardedRef, forwardRef, useState } from 'react';
-import { StyledPannels, StyledTabList, StyledTabWrapper } from './styled';
+import { StyledPannels, StyledTabWrapper } from './styled';
 import { TabContext } from './TabsContext';
 
 type TabsProps = {
@@ -23,6 +23,5 @@ const Tabs = forwardRef(
 );
 
 const TabPannels = StyledPannels;
-const TabList = StyledTabList;
 
-export { Tabs, TabPannels, TabList };
+export { Tabs, TabPannels };

@@ -1,11 +1,3 @@
-# `ui`
+# `@acme/ui`
 
-> TODO: description
-
-## Usage
-
-```
-const ui = require('ui');
-
-// TODO: DEMONSTRATE API
-```
+> UI Library for the apps

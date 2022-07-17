@@ -5,7 +5,11 @@ import {
   TabPannels,
   Tabs,
   TabTrigger,
+  TrashIcon,
 } from '@acme/ui';
+import { useReducer } from 'react';
+import { TodoRow, CreateTodoForm } from './components';
+import { initialTodos, todoReducer } from './features/todo';
 
 const Title = styled('h1', {
   fontSize: 36,
@@ -19,90 +23,93 @@ const AppShell = styled('div', {
   margin: '32px 0',
 });
 
-const StyledInput = styled('input', {
-  flex: 1,
-  padding: '20px 12px',
-  borderRadius: 12,
-  border: '1px solid $secondary',
-  fontSize: 14,
-  '&:focus': { outline: '1px solid $secondary' },
-  fontFamily: 'inherit',
+const TodoList = styled('div', {
+  display: 'flex',
+  flexDirection: 'column',
+  gap: 24,
+  marginTop: 26,
 });
 
-const StyledButton = styled('button', {
-  padding: '20px 40px',
-  fontSize: 14,
-  borderRadius: 12,
-  backgroundColor: '$primary',
-  border: 'none',
+const ResetButton = styled('button', {
+  all: 'unset',
   cursor: 'pointer',
+  backgroundColor: '$danger',
   color: 'White',
-  fontFamily: 'inherit',
-  filter: 'drop-shadow(0 2px 6px #7FB1F366)',
+  padding: '12px 24px',
+  display: 'inline-flex',
+  gap: 3,
+  alignItems: 'center',
+  borderRadius: 4,
+  marginLeft: 'auto',
 });
 
-function App() {
+function App({ initial = initialTodos, initialTab = 0 }) {
+  const [todos, dispatch] = useReducer(todoReducer, initial);
+  const activeTodos = todos.filter(todo => !todo.done);
+  const completedTodos = todos.filter(todo => todo.done);
   return (
     <AppShell>
       <Title>#todo</Title>
-      <Tabs defaultValue={0}>
+      <Tabs defaultValue={initialTab}>
         <TabList>
-          <TabTrigger value={0} type="button" role="tab">
-            All
-          </TabTrigger>
-          <TabTrigger value={1} type="button" role="tab">
-            Active
-          </TabTrigger>
-          <TabTrigger value={2} type="button" role="tab">
-            Completed
-          </TabTrigger>
+          <TabTrigger value={0}>All</TabTrigger>
+          <TabTrigger value={1}>Active</TabTrigger>
+          <TabTrigger value={2}>Completed</TabTrigger>
         </TabList>
         <TabPannels>
           <TabContent value={0}>
-            <div>
-              <form style={{ display: 'flex', alignItems: 'center', gap: 25 }}>
-                <label style={{ flex: 1, display: 'flex' }}>
-                  <span hidden>Todo details</span>
-                  <StyledInput type="text" placeholder="add details" />
-                </label>
-                <StyledButton type="submit">Add</StyledButton>
-              </form>
-              <div
-                style={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: 24,
-                  marginTop: 26,
-                }}
-              >
-                <label
-                  style={{ display: 'flex', alignItems: 'center', gap: 7 }}
-                >
-                  <input type="checkbox" name="" id="" />
-                  <span>Do coding challenges</span>
-                </label>
-                <label
-                  style={{ display: 'flex', alignItems: 'center', gap: 7 }}
-                >
-                  <input type="checkbox" name="" id="" />
-                  <span>Do coding challenges</span>
-                </label>
-                <label
-                  style={{ display: 'flex', alignItems: 'center', gap: 7 }}
-                >
-                  <input type="checkbox" name="" id="" />
-                  <span>Do coding challenges</span>
-                </label>
-              </div>
-            </div>
+            <CreateTodoForm
+              onSubmit={payload => dispatch({ type: 'addTodo', payload })}
+            />
+            <TodoList role="list">
+              {todos.map(todo => (
+                <TodoRow
+                  key={todo.id}
+                  todo={todo}
+                  toggleTodo={() =>
+                    dispatch({ type: 'toggleTodo', payload: todo.id })
+                  }
+                />
+              ))}
+            </TodoList>
           </TabContent>
           <TabContent value={1}>
-            <h2>Active</h2>
-            <p>
-              Lorem ipsum dolor, sit amet consectetur adipisicing elit. Vel
-              repellendus est dolorem iure minima debitis nisi eligendi nemo
-              quam. Suscipit.
-            </p>
+            <CreateTodoForm
+              onSubmit={payload => dispatch({ type: 'addTodo', payload })}
+            />
+            <TodoList role="list">
+              {activeTodos.map(todo => (
+                <TodoRow
+                  key={todo.id}
+                  todo={todo}
+                  toggleTodo={() =>
+                    dispatch({ type: 'toggleTodo', payload: todo.id })
+                  }
+                />
+              ))}
+            </TodoList>
+          </TabContent>
+          <TabContent value={2}>
+            <TodoList role="list">
+              {completedTodos.map(todo => (
+                <TodoRow
+                  key={todo.id}
+                  todo={todo}
+                  deleteTodo={() =>
+                    dispatch({ type: 'removeTodo', payload: todo.id })
+                  }
+                  toggleTodo={() =>
+                    dispatch({ type: 'toggleTodo', payload: todo.id })
+                  }
+                />
+              ))}
+            </TodoList>
+            <div style={{ display: 'flex', marginTop: 32 }}>
+              <ResetButton onClick={() => dispatch({ type: 'resetTodo' })}>
+                <TrashIcon width={12} height={12} />
+                delete all
+              </ResetButton>
+            </div>
           </TabContent>
         </TabPannels>
       </Tabs>

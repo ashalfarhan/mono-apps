@@ -22,6 +22,11 @@ const TabTrigger = forwardRef(
         ref={ref}
         onClick={callHandlers(onClick, props.onClick)}
         data-tab={value}
+        type="button"
+        role="tab"
+        aria-expanded={activeIndex === value}
+        id={`tab-trigger-${value}`}
+        aria-controls={`tab-content-${value}`}
       >
         {children}
         <StyledButtonIndicator active={activeIndex === value} />
