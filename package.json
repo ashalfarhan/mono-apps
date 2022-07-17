@@ -9,7 +9,7 @@
   },
   "scripts": {
     "ui": "yarn workspace @acme/ui",
-    "csr": "yarn workspace csr",
+    "spa": "yarn workspace spa",
     "prepare": "husky install",
     "lint": "eslint \"packages/**/*.{js,ts,jsx,tsx}\"",
     "fmt:check": "prettier --check \"packages/**/*.{js,ts,tsx,css,md,html,json}\"",
