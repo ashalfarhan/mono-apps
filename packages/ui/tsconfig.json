@@ -4,8 +4,9 @@
     "jsx": "react-jsx",
     "module": "CommonJS",
     "target": "ES2015",
-    "moduleResolution": "Node"
+    "moduleResolution": "Node",
+    "strict": true
   },
-  "include": ["src/**/*.ts", "react-shim.ts", "tsup.config.ts"],
+  "include": ["src/**/*.ts", "src/**/*.tsx", "react-shim.ts", "tsup.config.ts"],
   "exclude": ["node_modules"]
 }
