@@ -4,6 +4,9 @@
   "workspaces": [
     "packages/*"
   ],
+  "engines": {
+    "node": ">=16.13"
+  },
   "scripts": {
     "ui": "yarn workspace @acme/ui",
     "csr": "yarn workspace csr",
