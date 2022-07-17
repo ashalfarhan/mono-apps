@@ -4,7 +4,7 @@ import { expect, it, vi } from 'vitest';
 import { CreateTodoForm } from '../CreateTodoForm';
 
 it('should disable add button if input empty', () => {
-  render(<CreateTodoForm onSubmit={() => {}} />);
+  render(<CreateTodoForm onSubmit={() => void 0} />);
   const addBtn = screen.getByRole('button', {
     name: /add/i,
   });
@@ -14,7 +14,7 @@ it('should disable add button if input empty', () => {
 it('should success add todo', async () => {
   const submit = vi.fn();
   render(<CreateTodoForm onSubmit={submit} />);
-  
+
   const input = screen.getByRole('textbox');
   await userEvent.type(input, 'test todo one');
   expect(input).toHaveValue('test todo one');

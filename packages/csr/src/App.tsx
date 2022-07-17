@@ -9,7 +9,7 @@ import {
 } from '@acme/ui';
 import { useReducer } from 'react';
 import { TodoRow, CreateTodoForm } from './components';
-import { initialTodos, todoReducer } from './features/todo';
+import { initialTodos, Todo, todoReducer } from './features/todo';
 
 const Title = styled('h1', {
   fontSize: 36,
@@ -43,7 +43,13 @@ const ResetButton = styled('button', {
   marginLeft: 'auto',
 });
 
-function App({ initial = initialTodos, initialTab = 0 }) {
+function App({
+  initial = initialTodos,
+  initialTab = 0,
+}: {
+  initial?: Todo[];
+  initialTab?: number;
+}) {
   const [todos, dispatch] = useReducer(todoReducer, initial);
   const activeTodos = todos.filter(todo => !todo.done);
   const completedTodos = todos.filter(todo => todo.done);

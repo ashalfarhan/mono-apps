@@ -21,7 +21,9 @@ it('should call toggle when click the text', async () => {
 
 it('should call delete when click the trash icon', async () => {
   const remove = vi.fn();
-  render(<TodoRow toggleTodo={() => {}} todo={mockTodo} deleteTodo={remove} />);
+  render(
+    <TodoRow toggleTodo={() => void 0} todo={mockTodo} deleteTodo={remove} />
+  );
 
   const deleteBtn = screen.getByRole('button', {
     name: /remove todo/i,
