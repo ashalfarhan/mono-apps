@@ -114,7 +114,7 @@ jobs:
         if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
         run: |
           npm i -g surge
-          surge apps/ui/storybook-static ${{ env.UI_PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+          surge libs/ui/storybook-static ${{ env.UI_PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   lib-uicore:
     needs: [modules-changed]
