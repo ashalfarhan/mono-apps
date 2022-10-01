@@ -26,13 +26,13 @@ jobs:
         uses: tj-actions/changed-files@v31
   ci:
     needs: [modules-changed]
-    name: 👷‍♀️ Running Continous Integration (Static analyzer, Build, and Test)
+    name: 👷‍♀️ Continous Integration
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v3
       - name: 🤷🏼‍♂️ Debugging
         run: |
-          echo 'spa is ${{ needs.modules-changed.spa }}'
-          echo 'ui is ${{ needs.modules-changed.ui }}'
-          echo 'uicore is ${{ needs.modules-changed.uicore }}'
+          echo 'spa is ${{ needs.modules-changed.outputs.spa }}'
+          echo 'ui is ${{ needs.modules-changed.outputs.ui }}'
+          echo 'uicore is ${{ needs.modules-changed.outputs.uicore }}'
