@@ -64,7 +64,7 @@ jobs:
         id: ci
         run: |
           yarn spa fmt:check && yarn spa lint
-          yarn spa test
+          yarn spa test --reporter verbose
           yarn spa build && echo '::set-output name=build_success::true'
 
       - name: 🚀 Continous Deployment
@@ -108,7 +108,7 @@ jobs:
         id: ci
         run: |
           yarn ui fmt:check && yarn ui lint
-          yarn ui test
+          yarn ui test --reporter verbose
           yarn ui build:story && echo '::set-output name=build_success::true'
 
       - name: 🚀 Continous Deployment
