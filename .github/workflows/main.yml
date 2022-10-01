@@ -31,8 +31,22 @@ jobs:
     steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v3
-      - name: 🤷🏼‍♂️ Debugging
-        run: |
-          echo 'spa is ${{ needs.modules-changed.outputs.spa }}'
-          echo 'ui is ${{ needs.modules-changed.outputs.ui }}'
-          echo 'uicore is ${{ needs.modules-changed.outputs.uicore }}'
+      - name: 🐢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+      - name: 🗑 Restore cache
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: |
+            node_modules
+            apps/**/node_modules
+            libs/**/node_modules
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+      - name: ⬇️ Install dependencies
+        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
+        run: yarn install --frozen-lockfile

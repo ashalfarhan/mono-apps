@@ -14,7 +14,10 @@
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
     "story": "yarn copy:css && start-storybook -p 6006 --no-open",
-    "build:story": "yarn copy:css && build-storybook"
+    "build:story": "yarn copy:css && build-storybook",
+    "lint": "eslint \"{src,.storybook}/**/*.{ts,tsx,js,jsx}\"",
+    "fmt:check": "prettier --check \"{src,.storybook}/**/*.{js,ts,tsx,css,md,html,json}\"",
+    "fmt:write": "prettier --write \"{src,.storybook}/**/*.{js,ts,tsx,css,md,html,json}\""
   },
   "peerDependencies": {
     "@acme/uicore": "*",

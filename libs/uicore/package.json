@@ -9,5 +9,10 @@
   "files": [
     "src",
     "styles"
-  ]
+  ],
+  "scripts": {
+    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
+    "fmt:check": "prettier --check \"{src,styles}/**/*.{js,ts,tsx,css,md,html,json}\"",
+    "fmt:write": "prettier --write \"{src,styles}/**/*.{js,ts,tsx,css,md,html,json}\""
+  }
 }
