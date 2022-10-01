@@ -1,0 +1,9 @@
+{
+  "extends": "next/core-web-vitals",
+  "root": false,
+  "settings": {
+    "next": {
+      "rootDir": "apps/ssr"
+    }
+  }
+}

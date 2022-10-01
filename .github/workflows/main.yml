@@ -18,6 +18,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       spa: ${{ contains(steps.changed-files.outputs.all_modified_files, 'apps/spa/') }}
+      ssr: ${{ contains(steps.changed-files.outputs.all_modified_files, 'apps/ssr/') }}
       ui: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/ui/') }}
       uicore: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/uicore/') }}
       common: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/common/') }}
@@ -97,6 +98,46 @@ jobs:
         run: |
           npm i -g surge
           surge apps/spa/dist ${{ env.SPA_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+
+  app-ssr:
+    needs: [modules-changed, deps]
+    if: ${{ needs.modules-changed.outputs.ssr == 'true' }}
+    name: 💻 App ssr
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🐢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: 🗑 Restore cache
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: |
+            node_modules
+            apps/**/node_modules
+            libs/**/node_modules
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: 👷‍♀️ Continous Integration
+        id: ci
+        run: |
+          yarn ssr fmt:check && yarn ssr lint
+          # yarn ssr test --run --reporter verbose
+          yarn ssr build && echo '::set-output name=build_success::true'
+
+      # - name: 🚀 Continous Deployment
+      #   if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
+      #   run: |
+      #     npm i -g surge
+      #     surge apps/ssr/dist ${{ env.SSR_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   lib-ui:
     needs: [modules-changed, deps]

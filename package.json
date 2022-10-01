@@ -18,6 +18,7 @@
     "ui": "yarn workspace @acme/ui",
     "uicore": "yarn workspace @acme/uicore",
     "spa": "yarn workspace @acme/spa",
+    "ssr": "yarn workspace @acme/ssr",
     "prepare": "husky install",
     "lint": "eslint \"{apps,libs}/**/*.{ts,tsx}\"",
     "fmt:check": "prettier --check \"{apps,libs}/**/*.{js,ts,tsx,css,md,html,json}\"",
