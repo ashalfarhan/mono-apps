@@ -29,8 +29,37 @@ jobs:
         id: changed-files
         uses: tj-actions/changed-files@v31
 
+  deps:
+    name: 📪 Update cached dependencies
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🐢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: 🗑 Restore cache
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: |
+            node_modules
+            apps/**/node_modules
+            libs/**/node_modules
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: ⬇️ Install dependencies
+        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
+        run: yarn install --frozen-lockfile
+
   app-spa:
-    needs: [modules-changed]
+    needs: [modules-changed, deps]
     if: ${{ needs.modules-changed.outputs.spa == 'true' }}
     name: 💻 App spa
     runs-on: ubuntu-latest
@@ -56,10 +85,6 @@ jobs:
           restore-keys: |
             yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
-      - name: ⬇️ Install dependencies
-        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
-        run: yarn install --frozen-lockfile
-
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
@@ -74,7 +99,7 @@ jobs:
           surge apps/spa/dist ${{ env.SPA_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   lib-ui:
-    needs: [modules-changed]
+    needs: [modules-changed, deps]
     if: ${{ needs.modules-changed.outputs.ui == 'true' }}
     name: 📦 Lib ui
     runs-on: ubuntu-latest
@@ -100,10 +125,6 @@ jobs:
           restore-keys: |
             yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
-      - name: ⬇️ Install dependencies
-        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
-        run: yarn install --frozen-lockfile
-
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
@@ -118,7 +139,7 @@ jobs:
           surge libs/ui/storybook-static ${{ env.UI_PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   lib-uicore:
-    needs: [modules-changed]
+    needs: [modules-changed, deps]
     if: ${{ needs.modules-changed.outputs.uicore == 'true' }}
     name: 📦 Lib uicore
     runs-on: ubuntu-latest
@@ -144,10 +165,6 @@ jobs:
           restore-keys: |
             yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
-      - name: ⬇️ Install dependencies
-        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
-        run: yarn install --frozen-lockfile
-
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
@@ -155,7 +172,7 @@ jobs:
           yarn uicore tsc --noEmit
 
   lib-common:
-    needs: [modules-changed]
+    needs: [modules-changed, deps]
     if: ${{ needs.modules-changed.outputs.common == 'true' }}
     name: 📦 Lib common
     runs-on: ubuntu-latest
@@ -180,10 +197,6 @@ jobs:
           key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
-
-      - name: ⬇️ Install dependencies
-        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
-        run: yarn install --frozen-lockfile
 
       - name: 👷‍♀️ Continous Integration
         id: ci
