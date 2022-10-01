@@ -1,0 +1,38 @@
+name: Main Workflow
+
+on:
+  push:
+    paths-ignore:
+      - '**.md'
+
+env:
+  CI: true
+  NODE_VERSION: 16.13
+  CACHE_VERSION: v1
+
+jobs:
+  modules-changed:
+    name: 🔦 Detecting which modules changed
+    runs-on: ubuntu-latest
+    outputs:
+      spa: ${{ contains(steps.changed-files.outputs.all_modified_files, 'apps/spa/') }}
+      ui: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/ui/') }}
+      uicore: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/uicore/') }}
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+      - name: 🔦 Find file changes
+        id: changed-files
+        uses: tj-actions/changed-files@v31
+  ci:
+    needs: [modules-changed]
+    name: 👷‍♀️ Running Continous Integration (Static analyzer, Build, and Test)
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+      - name: 🤷🏼‍♂️ Debugging
+        run: |
+          echo 'spa is ${{ jobs.modules-changed.spa }}'
+          echo 'ui is ${{ jobs.modules-changed.ui }}'
+          echo 'uicore is ${{ jobs.modules-changed.uicore }}'
