@@ -33,6 +33,6 @@ jobs:
         uses: actions/checkout@v3
       - name: 🤷🏼‍♂️ Debugging
         run: |
-          echo 'spa is ${{ jobs.modules-changed.spa }}'
-          echo 'ui is ${{ jobs.modules-changed.ui }}'
-          echo 'uicore is ${{ jobs.modules-changed.uicore }}'
+          echo 'spa is ${{ needs.modules-changed.spa }}'
+          echo 'ui is ${{ needs.modules-changed.ui }}'
+          echo 'uicore is ${{ needs.modules-changed.uicore }}'
