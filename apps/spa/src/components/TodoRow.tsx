@@ -11,8 +11,8 @@ type TodoRowProps = {
 
 export const TodoRow = ({ todo, toggleTodo, deleteTodo }: TodoRowProps) => {
   return (
-    <li className={styles.row}>
-      <label className={styles.label} aria-label={todo.name}>
+    <li className={styles.row} role="listitem" aria-label={todo.name}>
+      <label className={styles.label}>
         <input
           className={styles.input}
           type="checkbox"

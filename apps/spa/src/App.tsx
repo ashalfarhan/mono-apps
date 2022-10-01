@@ -36,9 +36,9 @@ function App({
             <CreateTodoForm
               onSubmit={payload => dispatch({ type: 'addTodo', payload })}
             />
-            {activeTodos.length > 0 && (
+            {todos.length > 0 && (
               <ul className={styles['todo-list']} role="list">
-                {activeTodos.map(todo => (
+                {todos.map(todo => (
                   <TodoRow
                     key={todo.id}
                     todo={todo}
