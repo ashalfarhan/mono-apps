@@ -1,7 +1,14 @@
 import userEvent from '@testing-library/user-event';
 import { render, screen, within } from '@testing-library/react';
-import { expect } from 'vitest';
+import { expect, vi } from 'vitest';
 import App from './App';
+
+vi.mock('@acme/common', () => ({
+  AcmeStorage: {
+    set: vi.fn(),
+    get: vi.fn().mockImplementation((_key, arg) => arg),
+  },
+}));
 
 it('should success add todo', async () => {
   render(<App />);

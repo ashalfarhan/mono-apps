@@ -14,6 +14,7 @@
     "node": ">=16.13"
   },
   "scripts": {
+    "common": "yarn workspace @acme/common",
     "ui": "yarn workspace @acme/ui",
     "uicore": "yarn workspace @acme/uicore",
     "spa": "yarn workspace @acme/spa",
