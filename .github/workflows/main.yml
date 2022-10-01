@@ -146,6 +146,11 @@ jobs:
         if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
         run: yarn install --frozen-lockfile
 
+      - name: 👷‍♀️ Continous Integration
+        id: ci
+        run: |
+          yarn uicore fmt:check && yarn uicore lint
+
   # ci:
   #   needs: [modules-changed]
   #   name: 👷‍♀️ Continous Integration
