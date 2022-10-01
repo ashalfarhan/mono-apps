@@ -146,3 +146,5 @@ dist
 build
 
 libs/ui/public
+
+storybook-static

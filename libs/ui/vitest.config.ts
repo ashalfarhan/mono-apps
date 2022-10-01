@@ -11,9 +11,10 @@ export default defineConfig({
       exclude: [
         'src/**/*.test.ts',
         'src/**/*.test.tsx',
+        'src/**/*.stories.tsx',
+        'src/**/*.stories.mdx',
         // 'src/icons',
-        // 'src/index.ts',
-        // 'src/components/index.ts',
+        'src/**/*index.ts',
       ],
     },
   },

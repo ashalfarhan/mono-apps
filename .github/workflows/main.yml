@@ -21,21 +21,26 @@ jobs:
     steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v3
+
       - name: 🔦 Find file changes
         id: changed-files
         uses: tj-actions/changed-files@v31
-  ci:
+
+  app-spa:
     needs: [modules-changed]
-    name: 👷‍♀️ Continous Integration
+    if: ${{ needs.modules-changed.outputs.spa == 'true' }}
+    name: App SPA
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v3
+
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
+
       - name: 🗑 Restore cache
         uses: actions/cache@v3
         id: cache-deps
@@ -47,6 +52,140 @@ jobs:
           key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
           restore-keys: |
             yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
       - name: ⬇️ Install dependencies
         if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
         run: yarn install --frozen-lockfile
+
+      - name: 👷‍♀️ Continous Integration
+        id: ci
+        run: |
+          yarn spa fmt:check && yarn spa lint
+          yarn spa test:coverage && echo '::set-output name=test_success::true'
+          yarn spa build && echo '::set-output name=build_success::true'
+
+      - name: 📤 Upload test coverage result
+        uses: actions/upload-artifact@v3
+        if: ${{ steps.ci.outputs.test_success == 'true' }}
+        with:
+          name: spa-coverage
+          path: apps/spa/coverage/
+
+  lib-ui:
+    needs: [modules-changed]
+    if: ${{ needs.modules-changed.outputs.ui == 'true' }}
+    name: Lib ui
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🐢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: 🗑 Restore cache
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: |
+            node_modules
+            apps/**/node_modules
+            libs/**/node_modules
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: ⬇️ Install dependencies
+        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
+        run: yarn install --frozen-lockfile
+
+      - name: 👷‍♀️ Continous Integration
+        id: ci
+        run: |
+          yarn ui fmt:check && yarn ui lint
+          yarn ui test:coverage && echo '::set-output name=test_success::true'
+
+      - name: 📤 Upload test coverage result
+        uses: actions/upload-artifact@v3
+        if: ${{ steps.ci.outputs.test_success == 'true' }}
+        with:
+          name: ui-coverage
+          path: apps/ui/coverage/
+
+  lib-uicore:
+    needs: [modules-changed]
+    if: ${{ needs.modules-changed.outputs.uicore == 'true' }}
+    name: Lib uicore
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🐢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: 🗑 Restore cache
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: |
+            node_modules
+            apps/**/node_modules
+            libs/**/node_modules
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: ⬇️ Install dependencies
+        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
+        run: yarn install --frozen-lockfile
+
+  # ci:
+  #   needs: [modules-changed]
+  #   name: 👷‍♀️ Continous Integration
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: 📥 Checkout repo
+  #       uses: actions/checkout@v3
+
+  #     - name: 🐢 Setup Node.js
+  #       uses: actions/setup-node@v3
+  #       with:
+  #         node-version: ${{ env.NODE_VERSION }}
+  #         cache: 'yarn'
+
+  #     - name: 🗑 Restore cache
+  #       uses: actions/cache@v3
+  #       id: cache-deps
+  #       with:
+  #         path: |
+  #           node_modules
+  #           apps/**/node_modules
+  #           libs/**/node_modules
+  #         key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+  #         restore-keys: |
+  #           yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+  #     - name: ⬇️ Install dependencies
+  #       if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
+  #       run: yarn install --frozen-lockfile
+
+  #     - name: 💻 Module SPA
+  #       if: ${{ needs.modules-changed.outputs.spa == 'true' }}
+  #       run: |
+  #         yarn spa fmt:check && yarn spa lint
+  #         yarn spa test:coverage && echo '::set-output name=spa_test_success::true'
+  #         yarn spa build && echo '::set-output name=spa_build_success::true'
+
+  #     - name: 🤖 Module UI
+  #       if: ${{ needs.modules-changed.outputs.ui == 'true' }}
+  #       run: |
+  #         yarn ui fmt:check && yarn ui lint
+  #         yarn ui test:coverage && echo '::set-output name=ui_test_success::true'
+  #         yarn ui build && echo '::set-output name=ui_build_success::true'
