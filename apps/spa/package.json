@@ -8,7 +8,10 @@
     "build": "tsc && vite build",
     "test": "vitest",
     "test:coverage": "vitest run --coverage",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
+    "fmt:check": "prettier --check \"src/**/*.{js,ts,tsx,css,md,html,json}\"",
+    "fmt:write": "prettier --write \"src/**/*.{js,ts,tsx,css,md,html,json}\""
   },
   "dependencies": {
     "@acme/ui": "*",
