@@ -8,9 +8,9 @@
 
 The main goal of this repository is to demonstrate how to create a monorepo JavaScript/TypeScript project with Yarn Workspace (v1). And integrating a web application with internal library (not published to `npm` registry).
 
-### Available modules
+### Available Modules
 
-### Apps
+#### Apps
 
 - `spa` Client Side Rendering (CSR)
 
