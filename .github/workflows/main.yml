@@ -9,6 +9,8 @@ env:
   CI: true
   NODE_VERSION: 16.13
   CACHE_VERSION: v1
+  SPA_DOMAIN: https://mono-acme-todo.surge.sh
+  UI_PREVIEW_DOMAIN: https://mono-acme-ui.surge.sh
 
 jobs:
   modules-changed:
@@ -61,15 +63,14 @@ jobs:
         id: ci
         run: |
           yarn spa fmt:check && yarn spa lint
-          yarn spa test:coverage && echo '::set-output name=test_success::true'
+          yarn spa test --verbose
           yarn spa build && echo '::set-output name=build_success::true'
 
-      - name: 📤 Upload test coverage result
-        uses: actions/upload-artifact@v3
-        if: ${{ steps.ci.outputs.test_success == 'true' }}
-        with:
-          name: spa-coverage
-          path: apps/spa/coverage/
+      - name: 🚀 Continous Deployment
+        if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
+        run: |
+          npm i -g surge
+          surge apps/spa/dist ${{ env.SPA_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   lib-ui:
     needs: [modules-changed]
@@ -105,15 +106,15 @@ jobs:
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
-          yarn ui fmt:check && yarn ui lint
-          yarn ui test:coverage && echo '::set-output name=test_success::true'
+          yarn spa fmt:check && yarn spa lint
+          yarn spa test --verbose
+          yarn spa build:story && echo '::set-output name=build_success::true'
 
-      - name: 📤 Upload test coverage result
-        uses: actions/upload-artifact@v3
-        if: ${{ steps.ci.outputs.test_success == 'true' }}
-        with:
-          name: ui-coverage
-          path: libs/ui/coverage/
+      - name: 🚀 Continous Deployment
+        if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
+        run: |
+          npm i -g surge
+          surge apps/ui/storybook-static ${{ env.UI_PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   lib-uicore:
     needs: [modules-changed]
