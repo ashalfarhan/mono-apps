@@ -31,7 +31,7 @@ jobs:
   app-spa:
     needs: [modules-changed]
     if: ${{ needs.modules-changed.outputs.spa == 'true' }}
-    name: App SPA
+    name: 💻 App SPA
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
@@ -63,7 +63,7 @@ jobs:
         id: ci
         run: |
           yarn spa fmt:check && yarn spa lint
-          yarn spa test --verbose
+          yarn spa test
           yarn spa build && echo '::set-output name=build_success::true'
 
       - name: 🚀 Continous Deployment
@@ -75,7 +75,7 @@ jobs:
   lib-ui:
     needs: [modules-changed]
     if: ${{ needs.modules-changed.outputs.ui == 'true' }}
-    name: Lib ui
+    name: 📦 Lib ui
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
@@ -107,7 +107,7 @@ jobs:
         id: ci
         run: |
           yarn spa fmt:check && yarn spa lint
-          yarn spa test --verbose
+          yarn spa test
           yarn spa build:story && echo '::set-output name=build_success::true'
 
       - name: 🚀 Continous Deployment
@@ -119,7 +119,7 @@ jobs:
   lib-uicore:
     needs: [modules-changed]
     if: ${{ needs.modules-changed.outputs.uicore == 'true' }}
-    name: Lib uicore
+    name: 📦 Lib uicore
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
@@ -151,47 +151,3 @@ jobs:
         id: ci
         run: |
           yarn uicore fmt:check && yarn uicore lint
-
-  # ci:
-  #   needs: [modules-changed]
-  #   name: 👷‍♀️ Continous Integration
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: 📥 Checkout repo
-  #       uses: actions/checkout@v3
-
-  #     - name: 🐢 Setup Node.js
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: ${{ env.NODE_VERSION }}
-  #         cache: 'yarn'
-
-  #     - name: 🗑 Restore cache
-  #       uses: actions/cache@v3
-  #       id: cache-deps
-  #       with:
-  #         path: |
-  #           node_modules
-  #           apps/**/node_modules
-  #           libs/**/node_modules
-  #         key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
-  #         restore-keys: |
-  #           yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
-
-  #     - name: ⬇️ Install dependencies
-  #       if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
-  #       run: yarn install --frozen-lockfile
-
-  #     - name: 💻 Module SPA
-  #       if: ${{ needs.modules-changed.outputs.spa == 'true' }}
-  #       run: |
-  #         yarn spa fmt:check && yarn spa lint
-  #         yarn spa test:coverage && echo '::set-output name=spa_test_success::true'
-  #         yarn spa build && echo '::set-output name=spa_build_success::true'
-
-  #     - name: 🤖 Module UI
-  #       if: ${{ needs.modules-changed.outputs.ui == 'true' }}
-  #       run: |
-  #         yarn ui fmt:check && yarn ui lint
-  #         yarn ui test:coverage && echo '::set-output name=ui_test_success::true'
-  #         yarn ui build && echo '::set-output name=ui_build_success::true'
