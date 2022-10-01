@@ -7,9 +7,10 @@ import {
   TabTrigger,
   TrashIcon,
 } from '@acme/ui';
+import { Todo } from '@acme/common';
 import { useReducer } from 'react';
 import { TodoRow, CreateTodoForm } from './components';
-import { initialTodos, Todo, todoInitializer, todoReducer } from './features';
+import { initialTodos, todoInitializer, todoReducer } from './features';
 import styles from './App.module.css';
 
 function App({

@@ -1,6 +1,6 @@
-import { AcmeStorage } from '@acme/common';
+import { Todo, AcmeStorage } from '@acme/common';
 import { uuid } from '../../utils';
-import { Todo, TodoActions } from './models';
+import { TodoActions } from './models';
 
 export const initialTodos: Todo[] = [];
 

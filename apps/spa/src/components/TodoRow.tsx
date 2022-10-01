@@ -1,6 +1,6 @@
 import { Button, TrashIcon } from '@acme/ui';
 import clsx from 'clsx';
-import { Todo } from '../features';
+import { Todo } from '@acme/common';
 import styles from './TodoRow.module.css';
 
 type TodoRowProps = {
