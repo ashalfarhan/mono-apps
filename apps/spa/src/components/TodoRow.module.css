@@ -1,0 +1,25 @@
+.row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.text {
+  font-size: 18px;
+}
+
+.text-done {
+  text-decoration: line-through;
+}
+
+.label {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  flex: 1;
+}
+
+.input {
+  width: 18px;
+  height: 18px;
+}

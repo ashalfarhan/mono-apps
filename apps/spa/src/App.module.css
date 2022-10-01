@@ -1,0 +1,14 @@
+.title {
+  font-size: 36px;
+  text-align: center;
+  font-family: var(--font-raleway);
+  letter-spacing: -4.5%;
+  margin-bottom: 32px;
+}
+
+.todo-list {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  margin: 16px 0;
+}

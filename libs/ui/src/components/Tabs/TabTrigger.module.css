@@ -1,0 +1,32 @@
+.button {
+  padding: 8px 12px;
+  flex: 1;
+  background-color: White;
+  border: none;
+  cursor: pointer;
+  position: relative;
+  font-size: 14px;
+  font-weight: 500;
+}
+
+.button:disabled {
+  cursor: not-allowed !important;
+}
+
+.indicator {
+  border-top-left-radius: 4px;
+  border-top-right-radius: 4px;
+  position: absolute;
+  bottom: 0;
+  right: 50%;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 50%;
+  transition: background-color, height 300ms;
+  height: 0;
+}
+
+.active {
+  background-color: var(--token-color-primary);
+  height: 4px;
+}

@@ -1,0 +1,24 @@
+.input {
+  flex: 1;
+  padding: 20px 12px;
+  border-radius: 12px;
+  border: 1px solid var(--token-color-secondary);
+  font-size: 14px;
+  font-family: inherit;
+}
+
+.input:focus {
+  outline: 1px solid var(--token-color-secondary);
+}
+
+.button {
+  padding: 20px 40px;
+  font-size: 14px;
+  border-radius: 12px;
+  background-color: var(--token-color-primary);
+  border: none;
+  cursor: pointer;
+  color: white;
+  font-family: inherit;
+  filter: drop-shadow(0 2px 6px #7fb1f366);
+}

@@ -1,0 +1,59 @@
+.button {
+  padding: 1.2em 1.8em;
+  font-size: var(--font-size-s);
+  border-radius: var(--rounded);
+  border: none;
+  font-weight: 600;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.button:hover {
+  cursor: pointer;
+}
+
+.button:disabled {
+  cursor: not-allowed;
+}
+
+.fill {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  box-shadow: var(--shadow) var(--bg-color);
+}
+
+.fill > * {
+  color: var(--text-color);
+  stroke: var(--text-color);
+}
+
+.text {
+  background-color: transparent;
+  color: var(--bg-color);
+  box-shadow: none;
+}
+
+.text > * {
+  color: var(--bg-color);
+  stroke: var(--bg-color);
+}
+
+.primary {
+  --bg-color: var(--token-color-primary);
+  --text-color: white;
+}
+
+.danger {
+  --bg-color: var(--token-color-danger);
+  --text-color: white;
+}
+
+.secondary {
+  --bg-color: var(--token-color-secondary);
+  --text-color: var(--token-color-black);
+}
+
+.rounded-xl {
+  border-radius: var(--rounded-xl) !important;
+}

@@ -1,0 +1,13 @@
+{
+  "name": "@acme/uicore",
+  "version": "1.0.0",
+  "author": "ashalfarhan",
+  "license": "MIT",
+  "main": "./src/index.ts",
+  "module": "./src/index.ts",
+  "types": "./src/index.ts",
+  "files": [
+    "src",
+    "styles"
+  ]
+}

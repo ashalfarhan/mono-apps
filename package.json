@@ -1,36 +1,43 @@
 {
   "name": "@acme/mono-apps",
   "private": true,
+  "description": "A monorepo web application containing design system, CSR and SSR react applications",
+  "author": {
+    "email": "ashalfarhan8@gmail.com",
+    "name": "Ashal Farhan"
+  },
   "workspaces": [
-    "packages/*"
+    "apps/*",
+    "libs/*"
   ],
   "engines": {
     "node": ">=16.13"
   },
   "scripts": {
     "ui": "yarn workspace @acme/ui",
-    "spa": "yarn workspace spa",
+    "uicore": "yarn workspace @acme/uicore",
+    "spa": "yarn workspace @acme/spa",
     "prepare": "husky install",
-    "lint": "eslint \"packages/**/*.{js,ts,jsx,tsx}\"",
-    "fmt:check": "prettier --check \"packages/**/*.{js,ts,tsx,css,md,html,json}\"",
-    "fmt:write": "prettier --write \"packages/**/*.{js,ts,tsx,css,md,html,json}\""
+    "lint": "eslint \"{apps,libs}/**/*.{ts,tsx}\"",
+    "fmt:check": "prettier --check \"{apps,libs}/**/*.{js,ts,tsx,css,md,html,json}\"",
+    "fmt:write": "prettier --write \"{apps,libs}/**/*.{js,ts,tsx,css,md,html,json}\""
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^5.30.6",
     "@typescript-eslint/parser": "^5.30.6",
+    "copyfiles": "^2.4.1",
     "eslint": "^8.20.0",
     "eslint-config-prettier": "^8.5.0",
     "eslint-plugin-react": "^7.30.1",
     "eslint-plugin-react-hooks": "^4.6.0",
     "husky": "^8.0.1",
-    "lerna": "^5.0.0",
     "lint-staged": "^13.0.3",
     "prettier": "^2.7.1"
   },
   "lint-staged": {
-    "*.{js,ts,jsx,tsx,css,html,json,yml,yaml,md}": [
+    "*.{js,ts,tsx,css,html,json,yml,yaml,md}": [
       "prettier --write"
     ],
-    "*.{js,ts,jsx,tsx}": "eslint --fix"
+    "*.{js,ts,tsx}": "eslint --fix"
   }
 }

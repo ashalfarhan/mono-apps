@@ -1,0 +1,15 @@
+.container {
+  position: absolute;
+  width: 100%;
+  inset: 0;
+  visibility: hidden;
+  opacity: 0;
+  z-index: -1px;
+  transition: visibility, opacity 500ms;
+}
+
+.active {
+  opacity: 1;
+  visibility: visible;
+  z-index: 2px;
+}

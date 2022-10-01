@@ -1,0 +1,40 @@
+:root {
+  /* 
+  * @tokens Colors
+  * @presenter Color
+  */
+  --token-color-primary: #2f80ed;
+  --token-color-secondary: #bdbdbd;
+  --token-color-danger: #eb5757;
+  --token-color-black: #333333;
+
+  /* 
+  * @tokens Font Families
+  * @presenter FontFamily
+  */
+  --font-montserrat: 'Montserrat', sans-serif;
+  --font-raleway: 'Raleway', sans-serif;
+
+  /* 
+  * @tokens Font Sizes
+  * @presenter FontSize
+  */
+  --font-size-xs: 12px;
+  --font-size-s: 14px;
+  --font-size-base: 16px;
+  --font-size-m: 18px;
+  --font-size-xxl: 36px;
+
+  /* 
+  * @tokens Border Radius
+  * @presenter BorderRadius
+  */
+  --rounded: 4px;
+  --rounded-xl: 12px;
+
+  /* 
+  * @tokens Shadows
+  * @presenter Shadow
+  */
+  --shadow: 0px 2px 6px;
+}

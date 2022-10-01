@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "strict": true,
     "skipLibCheck": true,
     "noImplicitAny": true,
     "strictNullChecks": true,
@@ -13,11 +14,6 @@
     "esModuleInterop": true,
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules"],
-  "include": ["packages/**/*.ts", "packages/**/*.tsx"],
-  "references": [
-    {
-      "path": "packages/*/tsconfig.json"
-    }
-  ]
+  "exclude": ["node_modules", "public", "dist", "build", ".next"],
+  "include": ["libs/**/*.ts", "libs/**/*.tsx", "apps/**/*.ts", "apps/**/*.tsx"]
 }
