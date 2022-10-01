@@ -7,6 +7,6 @@
     "moduleResolution": "Node",
     "plugins": [{ "name": "typescript-plugin-css-modules" }]
   },
-  "include": ["src/**/*.ts", "src/**/*.tsx", "react-shim.ts"],
+  "include": ["src"],
   "exclude": ["node_modules"]
 }

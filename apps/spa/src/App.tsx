@@ -9,7 +9,7 @@ import {
 } from '@acme/ui';
 import { useReducer } from 'react';
 import { TodoRow, CreateTodoForm } from './components';
-import { initialTodos, Todo, todoReducer } from './features';
+import { initialTodos, Todo, todoInitializer, todoReducer } from './features';
 import styles from './App.module.css';
 
 function App({
@@ -19,7 +19,7 @@ function App({
   initial?: Todo[];
   initialTab?: number;
 }) {
-  const [todos, dispatch] = useReducer(todoReducer, initial);
+  const [todos, dispatch] = useReducer(todoReducer, initial, todoInitializer);
   const activeTodos = todos.filter(todo => !todo.done);
   const completedTodos = todos.filter(todo => todo.done);
   return (

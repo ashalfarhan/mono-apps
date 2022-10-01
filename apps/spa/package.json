@@ -14,6 +14,7 @@
     "fmt:write": "prettier --write \"src/**/*.{js,ts,tsx,css,md,html,json}\""
   },
   "dependencies": {
+    "@acme/common": "*",
     "@acme/ui": "*",
     "@acme/uicore": "*",
     "clsx": "^1.2.1",

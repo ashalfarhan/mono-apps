@@ -20,6 +20,7 @@ jobs:
       spa: ${{ contains(steps.changed-files.outputs.all_modified_files, 'apps/spa/') }}
       ui: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/ui/') }}
       uicore: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/uicore/') }}
+      common: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/common/') }}
     steps:
       - name: 📥 Checkout repo
         uses: actions/checkout@v3
@@ -31,7 +32,7 @@ jobs:
   app-spa:
     needs: [modules-changed]
     if: ${{ needs.modules-changed.outputs.spa == 'true' }}
-    name: 💻 App SPA
+    name: 💻 App spa
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
@@ -151,3 +152,41 @@ jobs:
         id: ci
         run: |
           yarn uicore fmt:check && yarn uicore lint
+          yarn uicore tsc --noEmit
+
+  lib-common:
+    needs: [modules-changed]
+    if: ${{ needs.modules-changed.outputs.common == 'true' }}
+    name: 📦 Lib common
+    runs-on: ubuntu-latest
+    steps:
+      - name: 📥 Checkout repo
+        uses: actions/checkout@v3
+
+      - name: 🐢 Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: ${{ env.NODE_VERSION }}
+          cache: 'yarn'
+
+      - name: 🗑 Restore cache
+        uses: actions/cache@v3
+        id: cache-deps
+        with:
+          path: |
+            node_modules
+            apps/**/node_modules
+            libs/**/node_modules
+          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          restore-keys: |
+            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+
+      - name: ⬇️ Install dependencies
+        if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
+        run: yarn install --frozen-lockfile
+
+      - name: 👷‍♀️ Continous Integration
+        id: ci
+        run: |
+          yarn common fmt:check && yarn common lint
+          yarn common tsc --noEmit
