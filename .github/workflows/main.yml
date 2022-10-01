@@ -113,7 +113,7 @@ jobs:
         if: ${{ steps.ci.outputs.test_success == 'true' }}
         with:
           name: ui-coverage
-          path: apps/ui/coverage/
+          path: libs/ui/coverage/
 
   lib-uicore:
     needs: [modules-changed]
