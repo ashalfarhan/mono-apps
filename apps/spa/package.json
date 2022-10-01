@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "test": "vitest watch",
-    "test:coverage": "vitest run --coverage",
+    "test:coverage": "vitest watch --coverage",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
     "fmt:check": "prettier --check \"src/**/*.{js,ts,tsx,css,md,html,json}\"",
@@ -22,10 +22,10 @@
     "react-dom": "^18.2.0"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^5.16.4",
-    "@testing-library/react": "^13.3.0",
-    "@testing-library/user-event": "^14.2.5",
-    "@types/react": "^18.0.15",
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^13.4.0",
+    "@testing-library/user-event": "^14.4.3",
+    "@types/react": "^18.0.21",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.0",
     "@vitest/coverage-c8": "^0.23.4",

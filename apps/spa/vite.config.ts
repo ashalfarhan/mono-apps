@@ -18,9 +18,10 @@ export default defineConfig({
       include: ['src/**/*.ts', 'src/**/*.tsx'],
       exclude: [
         'src/main.tsx',
-        'src/**/*.d.ts',
+        'src/vite-env.d.ts',
         'src/**/*.test.ts',
         'src/**/*.test.tsx',
+        'src/**/*/index.ts',
       ],
     },
   },

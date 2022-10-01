@@ -15,4 +15,8 @@ export class AcmeStorage {
   static set(key: string, value: unknown) {
     return localStorage.setItem(this.PREFIX + key, JSON.stringify(value));
   }
+
+  static clear() {
+    return localStorage.clear();
+  }
 }
