@@ -7,7 +7,6 @@ on:
 
 env:
   CI: true
-  NODE_VERSION: 16.13
   CACHE_VERSION: v1
   SPA_DOMAIN: https://mono-acme-todo.surge.sh
   UI_PREVIEW_DOMAIN: https://mono-acme-ui.surge.sh
@@ -40,7 +39,6 @@ jobs:
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NODE_VERSION }}
           cache: 'yarn'
 
       - name: 🗑 Restore cache
