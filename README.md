@@ -39,7 +39,7 @@ The main goal of this repository is to demonstrate how to create a monorepo Java
 - Install dependencies
 
   ```sh
-  yarn install
+  npm install
   ```
 
 ## References
