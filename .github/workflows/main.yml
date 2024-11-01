@@ -56,7 +56,7 @@ jobs:
 
       - name: ⬇️ Install dependencies
         if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
-        run: npm -w @acme/install run --frozen-lockfile
+        run: npm install
 
   app-spa:
     needs: [modules-changed, deps]
