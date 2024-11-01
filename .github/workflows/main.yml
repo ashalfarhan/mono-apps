@@ -39,7 +39,8 @@ jobs:
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          cache: 'yarn'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: 🗑 Restore cache
         uses: actions/cache@v3
@@ -49,13 +50,13 @@ jobs:
             node_modules
             apps/**/node_modules
             libs/**/node_modules
-          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          key: npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+            npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
       - name: ⬇️ Install dependencies
         if: ${{ steps.cache-deps.outputs.cache-hit != 'true' }}
-        run: yarn install --frozen-lockfile
+        run: npm -w @acme/install run --frozen-lockfile
 
   app-spa:
     needs: [modules-changed, deps]
@@ -69,8 +70,8 @@ jobs:
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: 🗑 Restore cache
         uses: actions/cache@v3
@@ -80,22 +81,22 @@ jobs:
             node_modules
             apps/**/node_modules
             libs/**/node_modules
-          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          key: npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+            npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
-          yarn spa fmt:check && yarn spa lint
-          yarn spa test --run --reporter verbose
-          yarn spa build && echo '::set-output name=build_success::true'
+          npm -w @acme/spa run fmt:check && npm -w @acme/spa run lint
+          npm -w @acme/spa run test --run --reporter verbose
+          npm -w @acme/spa run build && echo '::set-output name=build_success::true'
 
-      - name: 🚀 Continous Deployment
-        if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
-        run: |
-          npm i -g surge
-          surge apps/spa/dist ${{ env.SPA_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+      # - name: 🚀 Continous Deployment
+      #   if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
+      #   run: |
+      #     npm i -g surge
+      #     surge apps/spa/dist ${{ env.SPA_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   app-ssr:
     needs: [modules-changed, deps]
@@ -109,8 +110,8 @@ jobs:
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: 🗑 Restore cache
         uses: actions/cache@v3
@@ -120,16 +121,16 @@ jobs:
             node_modules
             apps/**/node_modules
             libs/**/node_modules
-          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          key: npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+            npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
-          yarn ssr fmt:check && yarn ssr lint
-          # yarn ssr test --run --reporter verbose
-          yarn ssr build && echo '::set-output name=build_success::true'
+          npm -w @acme/ssr run fmt:check && npm -w @acme/ssr run lint
+          # npm -w @acme/ssr run test --run --reporter verbose
+          npm -w @acme/ssr run build && echo '::set-output name=build_success::true'
 
       # - name: 🚀 Continous Deployment
       #   if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
@@ -149,8 +150,8 @@ jobs:
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: 🗑 Restore cache
         uses: actions/cache@v3
@@ -160,22 +161,22 @@ jobs:
             node_modules
             apps/**/node_modules
             libs/**/node_modules
-          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          key: npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+            npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
-          yarn ui fmt:check && yarn ui lint
-          yarn ui test --run --reporter verbose
-          yarn ui build:story && echo '::set-output name=build_success::true'
+          npm -w @acme/ui run fmt:check && npm -w @acme/ui run lint
+          npm -w @acme/ui run test --run --reporter verbose
+          npm -w @acme/ui run build:story && echo '::set-output name=build_success::true'
 
-      - name: 🚀 Continous Deployment
-        if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
-        run: |
-          npm i -g surge
-          surge libs/ui/storybook-static ${{ env.UI_PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
+      # - name: 🚀 Continous Deployment
+      #   if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
+      #   run: |
+      #     npm i -g surge
+      #     surge libs/ui/storybook-static ${{ env.UI_PREVIEW_DOMAIN }} --token ${{ secrets.SURGE_TOKEN }}
 
   lib-uicore:
     needs: [modules-changed, deps]
@@ -189,8 +190,8 @@ jobs:
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: 🗑 Restore cache
         uses: actions/cache@v3
@@ -200,15 +201,15 @@ jobs:
             node_modules
             apps/**/node_modules
             libs/**/node_modules
-          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          key: npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+            npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
-          yarn uicore fmt:check && yarn uicore lint
-          yarn uicore tsc --noEmit
+          npm -w @acme/uicore run fmt:check && npm -w @acme/uicore run lint
+          npm -w @acme/uicore run tsc --noEmit
 
   lib-common:
     needs: [modules-changed, deps]
@@ -222,8 +223,8 @@ jobs:
       - name: 🐢 Setup Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: ${{ env.NODE_VERSION }}
-          cache: 'yarn'
+          node-version-file: '.nvmrc'
+          cache: 'npm'
 
       - name: 🗑 Restore cache
         uses: actions/cache@v3
@@ -233,12 +234,12 @@ jobs:
             node_modules
             apps/**/node_modules
             libs/**/node_modules
-          key: yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/yarn.lock') }}
+          key: npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
-            yarn-${{ runner.os }}-${{ env.CACHE_VERSION }}-
+            npm-${{ runner.os }}-${{ env.CACHE_VERSION }}-
 
       - name: 👷‍♀️ Continous Integration
         id: ci
         run: |
-          yarn common fmt:check && yarn common lint
-          yarn common tsc --noEmit
+          npm -w @acme/common run fmt:check && npm -w @acme/common run lint
+          npm -w @acme/common run tsc --noEmit
