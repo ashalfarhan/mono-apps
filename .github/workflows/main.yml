@@ -23,27 +23,27 @@ jobs:
       common: ${{ contains(steps.changed-files.outputs.all_modified_files, 'libs/common/') }}
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🔦 Find file changes
         id: changed-files
-        uses: tj-actions/changed-files@v41
+        uses: tj-actions/changed-files@v45
 
   deps:
     name: 📪 Update cached dependencies
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🐢 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: 🗑 Restore cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-deps
         with:
           path: |
@@ -65,16 +65,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🐢 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: 🗑 Restore cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-deps
         with:
           path: |
@@ -89,8 +89,8 @@ jobs:
         id: ci
         run: |
           npm -w @acme/spa run fmt:check && npm -w @acme/spa run lint
-          npm -w @acme/spa run test --run --reporter verbose
-          npm -w @acme/spa run build && echo '::set-output name=build_success::true'
+          npm -w @acme/spa run test
+          npm -w @acme/spa run build && echo 'build_success=true' >> $GITHUB_OUTPUT
 
       # - name: 🚀 Continous Deployment
       #   if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
@@ -105,16 +105,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🐢 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: 🗑 Restore cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-deps
         with:
           path: |
@@ -129,8 +129,8 @@ jobs:
         id: ci
         run: |
           npm -w @acme/ssr run fmt:check && npm -w @acme/ssr run lint
-          # npm -w @acme/ssr run test --run --reporter verbose
-          npm -w @acme/ssr run build && echo '::set-output name=build_success::true'
+          # npm -w @acme/ssr run test
+          npm -w @acme/ssr run build && echo 'build_success=true' >> $GITHUB_OUTPUT
 
       # - name: 🚀 Continous Deployment
       #   if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
@@ -145,16 +145,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🐢 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: 🗑 Restore cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-deps
         with:
           path: |
@@ -169,8 +169,8 @@ jobs:
         id: ci
         run: |
           npm -w @acme/ui run fmt:check && npm -w @acme/ui run lint
-          npm -w @acme/ui run test --run --reporter verbose
-          npm -w @acme/ui run build:story && echo '::set-output name=build_success::true'
+          npm -w @acme/ui run test
+          npm -w @acme/ui run build:story && echo 'build_success=true' >> $GITHUB_OUTPUT
 
       # - name: 🚀 Continous Deployment
       #   if: ${{ steps.ci.outputs.build_success == 'true' && github.ref == 'refs/heads/main' }}
@@ -185,16 +185,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🐢 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: 🗑 Restore cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-deps
         with:
           path: |
@@ -218,16 +218,16 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: 📥 Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: 🐢 Setup Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version-file: '.nvmrc'
           cache: 'npm'
 
       - name: 🗑 Restore cache
-        uses: actions/cache@v3
+        uses: actions/cache@v4
         id: cache-deps
         with:
           path: |

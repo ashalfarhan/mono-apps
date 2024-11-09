@@ -6,8 +6,8 @@
   "scripts": {
     "dev": "vite",
     "build": "tsc && vite build",
-    "test": "vitest watch",
-    "test:coverage": "vitest watch --coverage",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
     "preview": "vite preview",
     "lint": "eslint \"src/**/*.{ts,tsx,js,jsx}\"",
     "fmt:check": "prettier --check \"src/**/*.{js,ts,tsx,css,md,html,json}\"",
