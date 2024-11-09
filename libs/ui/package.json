@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "copy:css": "copyfiles -f '../uicore/styles/**/*.css' public",
-    "test": "vitest watch",
-    "test:coverage": "vitest watch --coverage",
+    "test": "vitest",
+    "test:coverage": "vitest --coverage",
     "story": "npm run copy:css && start-storybook -p 6006 --no-open",
     "build:story": "npm run copy:css && build-storybook",
     "lint": "eslint \"{src,.storybook}/**/*.{ts,tsx,js,jsx}\"",
